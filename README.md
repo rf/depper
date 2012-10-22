@@ -4,7 +4,7 @@
 
 Depper is a simple dependency resolver. It encodes dependency sets as a boolean
 expression which is then solved by 
-[backtrack.js](https://github.com/russfrank/backtrack.js).
+[backtrack](https://github.com/russfrank/backtrack).
 
 # Example
 
