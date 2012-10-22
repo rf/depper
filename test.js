@@ -1,47 +1,19 @@
-var _ = require('underscore');
-var semver = require('semver');
+var assert = require('assert');
+var Depper = require('./depper');
 
-exports.resolve = function (pkg, version, depends, available, callback) {
-  var list = {};
-  var output = [];
+suite('solve', function () {
+  test('solve', function () {
 
-  // add every package we need into list
-  (function queue (pkg) {
-    var deps = depends(pkg), avail = available(pkg);
-    list[pkg] = {name: pkg, available: avail, depends: deps};
-    Object.keys(deps).forEach(queue);
-  }(pkg));
+    var set = new Depper();
+    set.pkg("foo", "1.3", "1.2", "1.1");
+    set.pkg("bar", "1.3", "1.2", "1.1");
+    set.pkg("baz", "1.3", "1.2", "1.1");
 
-  // now we have a list of all of the packages we need. each marks its
-  // dependencies and the versions available. this algorithm currently
-  // assumes that the dependencies don't change over time.
-  
-  try {
+    set.dep("foo@1.1", "bar@1.2");
+    set.dep("baz@1.3", "bar@1.3");
+    set.dep("baz@1.2", "bar@1.2");
 
-    (function traverse (pkg, version) {
-      Object.keys(pkg.deps).forEach(function (dep) {
-        var ver = pkg.deps[dep];
+    var results = set.solve();
 
-        // now, look through all of the available versions of pkg and see if they
-        // satisfy the version requirement
-
-        var satisfactory =_.filter(list[dep].available, function (item) {
-          return semver.satisfies(ver, item);
-        });
-
-        if (satisfactory.length < 1) {
-          throw new Error(
-            "no version of package " + dep + 
-            " that satisfies version requirement " + ver
-          );
-        }
-
-        traverse(dep, satisfactory);
-      });
-
-      // if we got here, we satisfied all deps
-      output.push({name: pkg, version: version});
-    }(pkg, version));
-
-  } catch (e) { callback(e); }
-};
+  });
+});

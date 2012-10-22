@@ -1,0 +1,27 @@
+{
+  "author": "Russ Frank <me@russfrank.us>",
+  "name": "depper",
+  "description": "simple dep analysis with backtrack.js",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "github.com:russfrank/depper"
+  },
+  "scripts" : {
+    "test": "mocha -R spec -u tdd test.js"
+  },
+  "main": "./depper",
+  "license": "MIT",
+  "homepage": "https://github.com/russfrank/depper",
+  "dependencies": {
+    "backtrack": "0.0.1"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
