@@ -35,7 +35,11 @@ Depper.prototype.dep = function (source, dep) {
 // Solves the dependency set
 Depper.prototype.solve = function () {
   var self = this;
+
+  // Call the original solve method
   var results = backtrack.Expression.prototype.solve.apply(self);
+
+  // Reduce it into an array of packages that need to be installed
   return Object.keys(results).reduce(function (memo, item) { 
     if (results[item]) memo.push(item);
     return memo;
